@@ -39,7 +39,7 @@ export function getRandomSubjects(count: number = 5): string[] {
 }
 
 // Função que retorna matérias aleatórias para qualquer curso
-export function getSubjectsByCourse(course: string): string[] {
+export function getSubjectsByCourse(_course: string): string[] {
   // Sempre retorna matérias sorteadas aleatoriamente, independente do curso
   return getRandomSubjects(5)
 }
