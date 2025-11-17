@@ -1,6 +1,7 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { BookOpen, Calendar } from "lucide-react"
+import { formatDate } from "@/lib/utils"
 
 interface CourseCardProps {
   course: string
@@ -9,15 +10,6 @@ interface CourseCardProps {
 }
 
 export function CourseCard({ course, startDate, endDate }: CourseCardProps) {
-  const formatDate = (dateString: string) => {
-    const date = new Date(dateString)
-    return date.toLocaleDateString("pt-BR", {
-      day: "2-digit",
-      month: "2-digit",
-      year: "numeric",
-    })
-  }
-
   return (
     <Card>
       <CardHeader>

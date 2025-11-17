@@ -2,6 +2,7 @@ import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader } from "@/components/ui/card"
 import { Separator } from "@/components/ui/separator"
 import { ArrowLeft, Download, GraduationCap, Calendar, User, Hash } from "lucide-react"
+import { formatDate } from "@/lib/utils"
 
 interface StudentCardProps {
   userData: {
@@ -17,15 +18,6 @@ interface StudentCardProps {
 }
 
 export function StudentCard({ userData, onBack, onDownload }: StudentCardProps) {
-  const formatDate = (dateString: string) => {
-    const date = new Date(dateString)
-    return date.toLocaleDateString("pt-BR", {
-      day: "2-digit",
-      month: "2-digit",
-      year: "numeric",
-    })
-  }
-
   const getInitials = (name: string) => {
     return name
       .split(" ")

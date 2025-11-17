@@ -6,6 +6,7 @@ import { ScheduleCard } from "@/components/ScheduleCard"
 import { PaymentCenter } from "@/components/PaymentCenter"
 import { User, Menu, IdCard, Calendar } from "lucide-react"
 import { useState, useEffect, useRef } from "react"
+import { formatDate } from "@/lib/utils"
 
 interface DashboardProps {
   userData: {
@@ -72,13 +73,7 @@ export function Dashboard({ userData, onNavigateToCard }: DashboardProps) {
                     <div className="text-sm font-medium">{userData.name}</div>
                     <div className="flex items-center gap-2 text-xs text-muted-foreground">
                       <Calendar className="h-3 w-3" />
-                      <span>
-                        {new Date(userData.birthDate).toLocaleDateString("pt-BR", {
-                          day: "2-digit",
-                          month: "2-digit",
-                          year: "numeric",
-                        })}
-                      </span>
+                      <span>{formatDate(userData.birthDate)}</span>
                     </div>
                   </div>
                 </div>
