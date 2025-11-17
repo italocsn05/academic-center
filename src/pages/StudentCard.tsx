@@ -45,19 +45,19 @@ export function StudentCard({ userData, onBack, onDownload }: StudentCardProps) 
         </Button>
 
         {/* Carteirinha */}
-        <Card className="border-2">
+        <Card className="border-2 overflow-hidden">
           <CardHeader className="bg-primary/5 pb-4">
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-3">
-                <div className="h-16 w-16 rounded-full bg-primary/20 flex items-center justify-center text-primary font-bold text-xl">
+                <div className="h-16 w-16 rounded-full bg-primary/20 flex items-center justify-center text-primary font-bold text-xl shrink-0">
                   {getInitials(userData.name)}
                 </div>
-                <div>
-                  <h2 className="text-lg font-bold">{userData.name}</h2>
+                <div className="min-w-0">
+                  <h2 className="text-lg font-bold truncate">{userData.name}</h2>
                   <p className="text-sm text-muted-foreground">Estudante</p>
                 </div>
               </div>
-              <GraduationCap className="h-8 w-8 text-primary" />
+              <GraduationCap className="h-8 w-8 text-primary shrink-0" />
             </div>
           </CardHeader>
           <CardContent className="pt-6 space-y-4">

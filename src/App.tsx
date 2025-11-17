@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Login } from "./pages/Login";
 import { Dashboard } from "./pages/Dashboard";
 import { StudentCard } from "./pages/StudentCard";
@@ -6,26 +6,40 @@ import { StudentCardDownload } from "./pages/StudentCardDownload";
 
 type Page = "login" | "dashboard" | "studentCard" | "studentCardDownload";
 
+type UserData = {
+  name: string;
+  course: string;
+  startDate: string;
+  endDate: string;
+  birthDate: string;
+  identification: string;
+};
+
+const STORAGE_KEY = "academic-center-user-data";
+
 function App() {
   const [currentPage, setCurrentPage] = useState<Page>("login");
-  const [userData, setUserData] = useState<{
-    name: string;
-    course: string;
-    startDate: string;
-    endDate: string;
-    birthDate: string;
-    identification: string;
-  } | null>(null);
+  const [userData, setUserData] = useState<UserData | null>(null);
 
-  const handleLogin = (data: {
-    name: string;
-    course: string;
-    startDate: string;
-    endDate: string;
-    birthDate: string;
-    identification: string;
-  }) => {
+  // Carregar dados do localStorage ao iniciar
+  useEffect(() => {
+    const savedData = localStorage.getItem(STORAGE_KEY);
+    if (savedData) {
+      try {
+        const parsedData = JSON.parse(savedData) as UserData;
+        setUserData(parsedData);
+        setCurrentPage("dashboard");
+      } catch (error) {
+        console.error("Erro ao carregar dados salvos:", error);
+        localStorage.removeItem(STORAGE_KEY);
+      }
+    }
+  }, []);
+
+  const handleLogin = (data: UserData) => {
     setUserData(data);
+    // Salvar no localStorage
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
     setCurrentPage("dashboard");
   };
 
