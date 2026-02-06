@@ -1,7 +1,7 @@
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader } from "@/components/ui/card"
 import { Separator } from "@/components/ui/separator"
-import { ArrowLeft, Download, GraduationCap, Calendar, User, Hash } from "lucide-react"
+import { ArrowLeft, Download, GraduationCap, Calendar, User, Hash, CreditCard, FileText, MapPin } from "lucide-react"
 import { formatDate } from "@/lib/utils"
 
 interface StudentCardProps {
@@ -12,9 +12,18 @@ interface StudentCardProps {
     endDate: string
     birthDate: string
     identification: string
+    cpf?: string
+    rg?: string
+    address?: string
   }
   onBack: () => void
   onDownload: () => void
+}
+
+function formatCpfDisplay(cpf: string) {
+  const digits = cpf.replace(/\D/g, "")
+  if (digits.length !== 11) return cpf || "Não informado"
+  return `${digits.slice(0, 3)}.${digits.slice(3, 6)}.${digits.slice(6, 9)}-${digits.slice(9)}`
 }
 
 export function StudentCard({ userData, onBack, onDownload }: StudentCardProps) {
@@ -98,6 +107,33 @@ export function StudentCard({ userData, onBack, onDownload }: StudentCardProps) 
             </div>
           </CardContent>
         </Card>
+
+        {/* CPF, RG, Endereço */}
+        <div className="space-y-3 rounded-lg border bg-card p-4">
+          <div className="flex items-center gap-3">
+            <CreditCard className="h-5 w-5 text-muted-foreground shrink-0" />
+            <div className="min-w-0 flex-1">
+              <p className="text-xs text-muted-foreground">CPF</p>
+              <p className="font-medium font-mono">{formatCpfDisplay(userData.cpf ?? "")}</p>
+            </div>
+          </div>
+          <Separator />
+          <div className="flex items-center gap-3">
+            <FileText className="h-5 w-5 text-muted-foreground shrink-0" />
+            <div className="min-w-0 flex-1">
+              <p className="text-xs text-muted-foreground">RG</p>
+              <p className="font-medium">{userData.rg?.trim() || "Não informado"}</p>
+            </div>
+          </div>
+          <Separator />
+          <div className="flex items-center gap-3">
+            <MapPin className="h-5 w-5 text-muted-foreground shrink-0" />
+            <div className="min-w-0 flex-1">
+              <p className="text-xs text-muted-foreground">Endereço</p>
+              <p className="font-medium">{userData.address?.trim() || "Não informado"}</p>
+            </div>
+          </div>
+        </div>
 
         {/* Botão Download */}
         <Button onClick={onDownload} className="w-full" size="lg">

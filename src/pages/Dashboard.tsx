@@ -16,6 +16,9 @@ interface DashboardProps {
     endDate: string
     birthDate: string
     identification: string
+    cpf?: string
+    rg?: string
+    address?: string
   }
   onNavigateToCard: () => void
 }

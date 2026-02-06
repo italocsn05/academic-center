@@ -31,6 +31,9 @@ interface LoginProps {
     endDate: string
     birthDate: string
     identification: string
+    cpf: string
+    rg: string
+    address: string
   }) => void
 }
 
@@ -41,6 +44,9 @@ export function Login({ onLogin }: LoginProps) {
   const [endDate, setEndDate] = useState("")
   const [birthDate, setBirthDate] = useState("")
   const [identification, setIdentification] = useState("")
+  const [cpf, setCpf] = useState("")
+  const [rg, setRg] = useState("")
+  const [address, setAddress] = useState("")
 
   // Preencher curso aleatório no primeiro carregamento
   useEffect(() => {
@@ -53,11 +59,30 @@ export function Login({ onLogin }: LoginProps) {
     return Math.floor(10000000 + Math.random() * 90000000).toString()
   }
 
+  const formatCpfDisplay = (value: string) => {
+    const digits = value.replace(/\D/g, "").slice(0, 11)
+    if (digits.length <= 3) return digits
+    if (digits.length <= 6) return `${digits.slice(0, 3)}.${digits.slice(3)}`
+    if (digits.length <= 9) return `${digits.slice(0, 3)}.${digits.slice(3, 6)}.${digits.slice(6)}`
+    return `${digits.slice(0, 3)}.${digits.slice(3, 6)}.${digits.slice(6, 9)}-${digits.slice(9)}`
+  }
+
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
-    if (name && course && startDate && endDate && birthDate) {
+    if (name && course && startDate && endDate && birthDate && cpf && rg && address) {
       const finalIdentification = identification.trim() || generateRandomId()
-      onLogin({ name, course, startDate, endDate, birthDate, identification: finalIdentification })
+      const cpfDigits = cpf.replace(/\D/g, "")
+      onLogin({
+        name,
+        course,
+        startDate,
+        endDate,
+        birthDate,
+        identification: finalIdentification,
+        cpf: cpfDigits,
+        rg: rg.trim(),
+        address: address.trim(),
+      })
     }
   }
 
@@ -144,6 +169,43 @@ export function Login({ onLogin }: LoginProps) {
               <p className="text-xs text-muted-foreground">
                 Se não informado, será gerado um número aleatório de 8 dígitos
               </p>
+            </div>
+            <div className="space-y-2">
+              <Label htmlFor="cpf">CPF</Label>
+              <Input
+                id="cpf"
+                type="text"
+                placeholder="000.000.000-00"
+                value={formatCpfDisplay(cpf)}
+                onChange={(e) => {
+                  const value = e.target.value.replace(/\D/g, "").slice(0, 11)
+                  setCpf(value)
+                }}
+                maxLength={14}
+                required
+              />
+            </div>
+            <div className="space-y-2">
+              <Label htmlFor="rg">RG</Label>
+              <Input
+                id="rg"
+                type="text"
+                placeholder="Digite o número do RG"
+                value={rg}
+                onChange={(e) => setRg(e.target.value)}
+                required
+              />
+            </div>
+            <div className="space-y-2">
+              <Label htmlFor="address">Endereço</Label>
+              <Input
+                id="address"
+                type="text"
+                placeholder="Digite seu endereço completo"
+                value={address}
+                onChange={(e) => setAddress(e.target.value)}
+                required
+              />
             </div>
             <Button type="submit" className="w-full" size="lg">
               <LogIn className="mr-2 h-4 w-4" />
